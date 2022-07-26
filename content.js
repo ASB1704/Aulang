@@ -1,25 +1,24 @@
 console.log("Content script loaded");
-
-
 // creating elemnt div for appending in the body of the webpage
 elemDiv = document.createElement("div");
 elemDiv.id = "toolbar";
 elemDiv.style.cssText = `position:absolute;
-                                      width:350px;
-                                      border-radius: 5px;
-                                      border: 1px solid gray;
-                                      box-shadow: 0px 2px 4px #333;
-                                      padding:10px;
-                                      top:0;
-                                      display:none;
-                                      left:0;
-                                      opacity:1;
-                                      z-index:1000000;
-                                      background:#fff;`;
+                         max-width:350px;
+                         border-radius: 5px;
+                         border: 1px solid gray;
+                         box-shadow: 0px 2px 4px #333;
+                         padding:10px;
+                         top:0;
+                         display:none;
+                         left:0;
+                         opacity:1;
+                         z-index:1000000;
+                         background:#fff;`;
 document.body.appendChild(elemDiv);
 // getting the set languages //
 var language;
 chrome.storage.sync.get(["lang", "Dict","Text"], function (result) {
+  console.log(result.Text)
   language = result.lang;
   // fetching the html file //
   fetch(chrome.runtime.getURL("/foo.html"))
@@ -41,12 +40,13 @@ chrome.storage.sync.get(["lang", "Dict","Text"], function (result) {
         // getting the mouse position //
         mx = e.clientX;
         my = e.clientY;
+        console.log(mx,my)
         let scroll = document.documentElement.scrollTop;
-        
         elemDiv.style.display = "block";
-        if (selectedtext.length != 1) {
-
-          if(my+200 > window.innerHeight || mx+200 > window.innerWidth){
+        const toolbar = document.getElementById('toolbar').getBoundingClientRect()
+        console.log(toolbar)
+        if (selectedtext.length > 0 && selectedtext != " ") {
+          if( mx+toolbar.width > window.innerWidth || my+toolbar.height > window.innerHeight){
             elemDiv.style.left = `${mx-200}px`;
           elemDiv.style.top = `${
             my -  200 + scroll
@@ -59,8 +59,8 @@ chrome.storage.sync.get(["lang", "Dict","Text"], function (result) {
           }
 
           // loading effect for text //
-          head.innerText = "🤔";
-          hindiWord.innerText = "🤔";
+          head.innerText = "...";
+          hindiWord.innerText = "...";
           ol.innerHTML = `getting...`;
 
           // fetching the meaning and hindi meaning //
@@ -110,7 +110,7 @@ chrome.storage.sync.get(["lang", "Dict","Text"], function (result) {
 
       
       Add_dict.addEventListener("click", () => {
-        Add_dict.innerHTML = `👍🏻 Added 📝`;
+        Add_dict.innerHTML = `Added 📝`;
         setInterval(() => {
           Add_dict.innerHTML = `Add to dictionary`;
         }, 1000);

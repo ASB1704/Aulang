@@ -13,8 +13,6 @@ let dictWord = document.getElementById("dictWord");
 // getting the stored value //
 chrome.storage.sync.get(["lang", "Dict","Reload"], function (result) {
   lang = result.lang;
-  selectLang1.value = lang[0];
-  selectLang2.value = lang[1];
   var x, y;
   x = lang[0];
   y = lang[1];
@@ -41,9 +39,8 @@ chrome.storage.sync.get(["lang", "Dict","Reload"], function (result) {
 
   // storing in the chrome storage //
   function setlanguage() {
-    
     chrome.storage.sync.set({ "Reload": true });
-    chrome.storage.sync.set({ lang: lang }, function () {
+    chrome.storage.sync.set({ "lang": lang }, function () {
       console.log("Value is set : " + lang);
     });
   }
