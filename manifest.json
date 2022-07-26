@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "version": "0.1",
+  "name": "A-Word finder",
+  "action": {
+    "default_icon": "icon.png",
+    "default_popup":"popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "web_accessible_resources": [
+    {
+      "resources":["foo.html"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "options_page":"option.html",
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+   "icons":{
+     "48":"icon.png"
+},
+"permissions":[
+  "activeTab",
+  "storage"
+]
+}

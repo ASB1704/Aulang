@@ -1,0 +1,101 @@
+* {
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+}
+
+body {
+     width: 100%;
+     height: 100vh;
+     display: grid;
+     place-items: center;
+     background-color: #35363a;
+}
+
+#wrapper,#dictionary {
+     background-color: #202124;
+     width: 400px;
+     height: 500px;
+     border-radius: 10px;
+     text-align: center;
+     position: relative;
+     z-index: 1;
+}
+#dictionary{
+
+     position: absolute;
+     z-index: 0;
+}
+
+h1 {
+     color: #fff;
+     text-align: center;
+     margin: 15px 0 25px 0;
+     font-family: 'Acme', sans-serif;
+}
+
+.wrapper_ele {
+     padding: 12px 15px;
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     flex-direction: row;
+     color: #fff;
+}
+
+
+#selectLang1,
+#selectLang2,
+#btn,
+#dict_btn,
+#backBtn,
+#ClearDict{
+     cursor: pointer;
+     padding: 8px 15px;
+     background-color: #35363a;
+     color: #fff;
+     border-radius: 3px;
+     border: 1px solid #35363a;
+}
+#btn:hover,#backBtn:hover,#ClearDict:hover,
+#dict_btn:hover{
+     background-color: #202124;
+     border: 1px solid #35363a;
+}
+#backBtn{
+     padding: 8px 20px;
+}
+
+p {
+     width: 100%;
+     margin: auto;
+     position: absolute;
+     bottom: 10px;
+     color: gray;
+}
+
+.display {
+    
+     color: green;
+     display: none;
+}
+#dictWord{
+     overflow-y: scroll;
+     height: 400px;
+     list-style: none;
+     text-align: start;
+}
+::-webkit-scrollbar{
+     display: none;
+}
+#dictWord li{
+     color: #fff;
+     font-size: 0.9rem;
+     padding: 10px;
+     margin: 5px 0;
+     border: 3px;
+     cursor: pointer;
+}
+#dictWord li:hover{
+     background-color: #35363a;
+}
