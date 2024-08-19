@@ -1,7 +1,6 @@
-console.log("Background.js running");
-dict = [];
+let dict = [];
 chrome.storage.sync.get(["lang","Dict","Reload","Text"],function(result){
-     // console.log(result.lang)
+     console.log(result, " : results")
      if(result.Dict==undefined){
           chrome.storage.sync.set({"Dict": dict});
      }

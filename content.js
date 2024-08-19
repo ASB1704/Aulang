@@ -18,7 +18,6 @@ document.body.appendChild(elemDiv);
 // getting the set languages //
 var language;
 chrome.storage.sync.get(["lang", "Dict","Text"], function (result) {
-  console.log(result.Text)
   language = result.lang;
   // fetching the html file //
   fetch(chrome.runtime.getURL("/foo.html"))
@@ -40,11 +39,9 @@ chrome.storage.sync.get(["lang", "Dict","Text"], function (result) {
         // getting the mouse position //
         mx = e.clientX;
         my = e.clientY;
-        console.log(mx,my)
         let scroll = document.documentElement.scrollTop;
         elemDiv.style.display = "block";
         const toolbar = document.getElementById('toolbar').getBoundingClientRect()
-        console.log(toolbar)
         if (selectedtext.length > 0 && selectedtext != " ") {
           if( mx+toolbar.width > window.innerWidth || my+toolbar.height > window.innerHeight){
             elemDiv.style.left = `${mx-200}px`;
@@ -65,17 +62,15 @@ chrome.storage.sync.get(["lang", "Dict","Text"], function (result) {
 
           // fetching the meaning and hindi meaning //
           const options = {
-            method: "GET",
+            method: 'GET',
             headers: {
-              "X-RapidAPI-Key":
-                "db553e6076msh6431e04f8d54b9ep1c4067jsna3eb30d8d7c2",
-              "X-RapidAPI-Host":
-                "translated-mymemory---translation-memory.p.rapidapi.com",
-            },
+              'X-RapidAPI-Key': 'db553e6076msh6431e04f8d54b9ep1c4067jsna3eb30d8d7c2',
+              'X-RapidAPI-Host': 'translated-mymemory---translation-memory.p.rapidapi.com'
+            }
           };
           // fetching the hindi meaning //
           fetch(
-            `https://translated-mymemory---translation-memory.p.rapidapi.com/api/get?langpair=${language[0]}|${language[1]}&q=${selectedtext}&mt=1&onlyprivate=0&de=a%40b.c`,
+            `https://translated-mymemory---translation-memory.p.rapidapi.com/get?langpair=${language[0]}%7C${language[1]}&q=${selectedtext}&mt=1&onlyprivate=0&de=a%40b.c`,
             options
           )
             .then((response) => response.json())
@@ -87,20 +82,28 @@ chrome.storage.sync.get(["lang", "Dict","Text"], function (result) {
               });
             });
           // fetching the meanings of the word //
-          let url = `https://api.dictionaryapi.dev/api/v2/entries/en/${selectedtext}`;
-          fetch(url)
+          // let url = `https://api.dictionaryapi.dev/api/v2/entries/en/${selectedtext}`;
+          let url = `https://mashape-community-urban-dictionary.p.rapidapi.com/define?term=${selectedtext}`;
+          const options2 = {
+            method: 'GET',
+            headers: {
+              'X-RapidAPI-Key': 'db553e6076msh6431e04f8d54b9ep1c4067jsna3eb30d8d7c2',
+              'X-RapidAPI-Host': 'mashape-community-urban-dictionary.p.rapidapi.com'
+            }
+          };
+          fetch(url,options2)
             .then((response) => response.json())
             .then((data) => {
-              let arr = data[0].meanings[0].definitions;
+              let arr = data.list
               let len = Math.min(5, arr.length);
               head.innerText = selectedtext;
-
               ol.innerHTML = ``;
               for (i = 0; i < len; i++) {
                 ol.innerHTML += `<li>${arr[i].definition}</li><br>`;
               }
             })
             .catch((error) => {
+              console.log(error);
               head.innerText = selectedtext;
               ol.innerHTML = `No definitions found ☹️...`;
             });
@@ -137,6 +140,5 @@ document.body.addEventListener("click", (e) => {
     e.clientY > opt.y + opt.height
   ) {
     elemDiv.style.display = "none";
-   
   }
 });

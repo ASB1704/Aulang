@@ -1,4 +1,3 @@
-console.log("options.js loaded");
 // declaring the variables //
 let wrapper = document.getElementById("wrapper");
 let dictionary = document.getElementById("dictionary");
@@ -16,6 +15,7 @@ chrome.storage.sync.get(["lang", "Dict","Reload"], function (result) {
   var x, y;
   x = lang[0];
   y = lang[1];
+  console.log(result.Dict," aaaaa");
 
   //selecting from the list - 1
   selectLang1.addEventListener("click", (item) => {
@@ -41,7 +41,6 @@ chrome.storage.sync.get(["lang", "Dict","Reload"], function (result) {
   function setlanguage() {
     chrome.storage.sync.set({ "Reload": true });
     chrome.storage.sync.set({ "lang": lang }, function () {
-      console.log("Value is set : " + lang);
     });
   }
 
@@ -64,11 +63,11 @@ chrome.storage.sync.get(["lang", "Dict","Reload"], function (result) {
     if (result.Dict.length == 0) {
       alert("Already empty");
     } else {
-      result.Dict.forEach((element) => {
+        let cfm = confirm("are you sure you want to delete all")
+        if(!cfm) return;
         result.Dict = [];
         dictWord.innerHTML = "";
         chrome.storage.sync.set({ Dict: result.Dict }, function () {});
-      });
     }
   });
 });
